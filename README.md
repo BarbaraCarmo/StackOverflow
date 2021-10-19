@@ -1,6 +1,7 @@
 # StackOverflow
 
 ### Integrantes:
+- André Fellipe
 - Bárbara Carmo
 - Enzo Terenzi
 - Felipe Costa
@@ -8,20 +9,22 @@
 
 
 ### Descrição:
-Apresentamos aqui a primeira etapa de implementação 
+Apresentamos aqui a segunda etapa de implementação 
 do nosso projeto Stack OverFlow. 
-Nesta etapa, trabalhamos com a criação e manipulação de usuários do sistema através das operações do CRUD usando índice secundário pela Hash.
+Nesta etapa, trabalhamos com a criação e manipulação das perguntas atreladas a cada usuário do sistema através das operações do CRUD usando Lista Invertida e Arvore B+.
 
 Atulamente os usários podem:
-- [x] Acessar o sistema
-- [x] Criar uma conta
-- [x] Alterar a senha
+- [x] Acessar suas perguntas através do menu
+- [x] Listar, incluir, alterar e arquivar suas perguntas
 
-Para que isso seja possível atulizamos algumas classes já desenvolvidas anteriormente e criamos algumas novas, tais quais:
-- CRUDUsuario
-- ParEmailID
-- Usuario
+Para que isso seja possível atulizamos como base algumas classes já desenvolvidas anteriormente e códigos disponibiizados pelo professor e criamos algumas novas, tais quais:
+- Pergunta
+- CRUDPergunta
+- ListaInvertida
+- AcessoMinhasPerguntas
+- AcessoPrincipal
+- AcessoUsuario
+- ArvoreBMais
+- RegistroArvoreBMais
 
-Levando todos esses aspectos em consideração, acreditamos ter completado todos os requisitos inciais desta entrega, assim como __ambos os desafios__:
-- [x] Opção de cadastrar outra senha (alterar)
-- [x] Armazenar apenas o código hash da senha
+Levando todos esses aspectos em consideração, acreditamos ter completado todos os requisitos inciais desta entrega
