@@ -1,20 +1,20 @@
-import java.util.Scanner;
-
 //CORRETO: COMO ISTO É INTERFACE NENHUMA FUNÇÃO PODE RETORNAR EXCEPTION, TODAS ELAS NESTE MOMENTO VÃO MOSTRAR MENSAGENS AO USUARIO E PROVAVELMENTE FINALIZAR O PROGRAMA RETORNANDO FALSO.
 // no caso tem que depois por
 // try{ linha com problema }
 // except{ print("menssagem especifica da linha"); return false; }
 // mas não é uma boa ideia colocar isso antes de garantir que o codigo ta funcionando.
+import java.util.Scanner;
+
+import Model.Usuario.*;
+
 class AcessoUsuario {
   CRUDUsuario crudUsuario;
   Scanner myInput;
-  String fileName;
   Usuario usuario;
 
-  public AcessoUsuario(String arquivo, Usuario usuario) throws Exception {
+  public AcessoUsuario(Usuario usuario) throws Exception {
     this.usuario = usuario;
-    fileName = arquivo;
-    crudUsuario = new CRUDUsuario(arquivo);
+    crudUsuario = new CRUDUsuario();
     myInput = new Scanner(System.in);
   }
 
@@ -67,7 +67,7 @@ class AcessoUsuario {
           status = false;
           break;
         case 1:
-          status = new AcessoMinhasPerguntas(fileName, "perguntas", usuario).run();
+          status = new AcessoMinhasPerguntas(usuario).run();
           break;
         case 2:
           status = MinhasRespostas();

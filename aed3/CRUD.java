@@ -1,30 +1,39 @@
+package aed3;
+
 import java.io.RandomAccessFile;
 import java.io.File;
 import java.lang.reflect.Constructor;
-import aed3.HashExtensivel;
 
-class CRUD<T extends Registro> {
+public class CRUD<T extends Registro> {
 
   RandomAccessFile arquivo;
   Constructor<T> construtor;
   final int TAMANHO_CABECALHO = 4;
-  HashExtensivel<ParIDEndereco> myHash;
+  HashExtensivel<ParIdEndereco> myHash;
 
   public CRUD(String nomeArquivo, Constructor<T> c) throws Exception {
-    File f = new File("dados");
-    if (!f.exists()) {
-      f.mkdir();
-    }
-    f = new File("dados/" + nomeArquivo);
-    if (!f.exists()) {
-      f.mkdir();
-    }
-    arquivo = new RandomAccessFile("dados/" + nomeArquivo + "/arquivo.db", "rw");
+    createFolders(nomeArquivo);
+    
+    arquivo = new RandomAccessFile("dados/" + nomeArquivo + ".db", "rw");
     construtor = c;
     if (arquivo.length() == 0) {
       arquivo.writeInt(0);
     }
-    myHash = new HashExtensivel<>(ParIDEndereco.class.getConstructor(), 4, "dados/" + nomeArquivo + ".hash_b.db", "dados/" + nomeArquivo + ".hash_a.db");
+    myHash = new HashExtensivel<>(ParIdEndereco.class.getConstructor(), 4, "dados/" + nomeArquivo + "_a.hash", "dados/" + nomeArquivo + "_b.hash");
+  }
+
+  private void createFolders(String nomeArquivo) throws Exception {
+    String[] names = nomeArquivo.split("/");
+    String folderString = "dados/";
+    
+    if (names.length > 1) {
+      for (int i=0; i<names.length-1; i++) folderString += names[i];
+    }
+
+    File f = new File(folderString);
+    if (!f.exists()) {
+      f.mkdirs();
+    }
   }
 
   public boolean isEmpty() throws Exception { 
@@ -43,7 +52,7 @@ class CRUD<T extends Registro> {
     obj.setID(proximoID);
     byte[] byArray = obj.toByteArray();
 
-    myHash.create(new ParIDEndereco(proximoID, arquivo.length()));
+    myHash.create(new ParIdEndereco(proximoID, arquivo.length()));
 
     arquivo.writeByte(' ');
     arquivo.writeInt(byArray.length);
@@ -54,7 +63,7 @@ class CRUD<T extends Registro> {
 
 
   public T read(int idProcurado) throws Exception {
-    ParIDEndereco parIDEnd;
+    ParIdEndereco parIDEnd;
     parIDEnd = myHash.read(idProcurado);
 
     if (parIDEnd != null) {
@@ -77,7 +86,7 @@ class CRUD<T extends Registro> {
   }
 
   public boolean update(T obj) throws Exception {
-    ParIDEndereco parIDEnd;
+    ParIdEndereco parIDEnd;
     parIDEnd = myHash.read(obj.getID());
     
     arquivo.seek(parIDEnd.getEndereco());
@@ -103,7 +112,7 @@ class CRUD<T extends Registro> {
           arquivo.writeByte('*');
           arquivo.seek(arquivo.length());
 
-          myHash.update(new ParIDEndereco(obj.getID(), arquivo.length()));
+          myHash.update(new ParIdEndereco(obj.getID(), arquivo.length()));
 
           arquivo.writeByte(' ');
           arquivo.writeInt(objByArray.length);
@@ -116,7 +125,7 @@ class CRUD<T extends Registro> {
   }
 
   public boolean delete(int idProcurado) throws Exception {
-    ParIDEndereco parIDEnd;
+    ParIdEndereco parIDEnd;
     parIDEnd = myHash.read(idProcurado);
     
     arquivo.seek(parIDEnd.getEndereco());

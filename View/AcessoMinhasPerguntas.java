@@ -2,21 +2,19 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
-class AcessoMinhasPerguntas {
-  String fileUsuario;
-  String filePerguntas;
+import Model.Usuario.*;
+import Model.Pergunta.*;
 
+class AcessoMinhasPerguntas {
   CRUDUsuario crudUsuario;
   CRUDPergunta crudPergunta;
 
   Scanner myInput;
   Usuario usuario;
-  public AcessoMinhasPerguntas(String arquivo, String arquivoPerguntas, Usuario usuario) throws Exception {
+  public AcessoMinhasPerguntas(Usuario usuario) throws Exception {
     this.usuario = usuario;
-    fileUsuario = arquivo;
-    filePerguntas = arquivoPerguntas;
-    crudUsuario = new CRUDUsuario(arquivo);
-    crudPergunta = new CRUDPergunta(arquivoPerguntas);
+    crudUsuario = new CRUDUsuario();
+    crudPergunta = new CRUDPergunta();
     myInput = new Scanner(System.in);
   }
 
@@ -79,7 +77,14 @@ class AcessoMinhasPerguntas {
     String[] chaves = EscolheChaves();
 
     Pergunta novaPergunta = new Pergunta(usuario.getID(), titulo, chaves);
-    crudPergunta.create(novaPergunta);
+    int perguntaCreation = crudPergunta.create(novaPergunta);
+    if (perguntaCreation == -3) {
+      System.out.println("\nErro na insercao. (arvore b mais)\n");
+    } else if (perguntaCreation == -2) {
+      System.out.println("\nErro na insercao. (indice chaves)\n");
+    } else if (perguntaCreation == -2) {
+      System.out.println("\nErro na insercao. (arquivo principal)\n");
+    } else System.out.println("\nPergunta inserida.\n");
     return true;
   }
 

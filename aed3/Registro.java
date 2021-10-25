@@ -1,4 +1,4 @@
-// package aed3;
+package aed3;
 
 public interface Registro {
   public byte[] toByteArray() throws Exception;

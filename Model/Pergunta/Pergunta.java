@@ -7,6 +7,8 @@ import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import aed3.Registro;
+
 public class Pergunta implements Registro {
   protected int idPergunta;
   protected int idUsuario;

@@ -10,6 +10,7 @@ Implementado pelo Prof. Marcos Kutova
 v1.0 - 2021
  
 */
+package aed3;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,21 +18,21 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParIDEndereco implements aed3.RegistroHashExtensivel<ParIDEndereco> {
+public class ParIdEndereco implements RegistroHashExtensivel<ParIdEndereco> {
 
   private int id;
   private long endereco;
   private short TAMANHO = 12;
 
-  public ParIDEndereco() {
+  public ParIdEndereco() {
     this(-1, -1);
   }
 
-  public ParIDEndereco(int i) {
+  public ParIdEndereco(int i) {
     this(i, -1);
   }
 
-  public ParIDEndereco(int i, long e) {
+  public ParIdEndereco(int i, long e) {
     this.id = i;
     this.endereco = e;
   }
@@ -46,7 +47,7 @@ public class ParIDEndereco implements aed3.RegistroHashExtensivel<ParIDEndereco>
   public long getEndereco() { return this.endereco; }
   public void setEndereco(long value) { this.endereco = value; }
 
-  public String toString() { return this.id + ";" + this.endereco; }
+  public String toString() { return "(" + this.id + "," + this.endereco + ")"; }
 
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import aed3.Registro;
+
 public class Usuario implements Registro {
   protected int idUsuario;
   protected String nome;

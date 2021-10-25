@@ -1,17 +1,18 @@
-import java.util.Scanner;
 //CORRETO: COMO ISTO É INTERFACE NENHUMA FUNÇÃO PODE RETORNAR EXCEPTION, TODAS ELAS NESTE MOMENTO VÃO MOSTRAR MENSAGENS AO USUARIO E PROVAVELMENTE FINALIZAR O PROGRAMA RETORNANDO FALSO.
 // no caso tem que depois por
 // try{ linha com problema }
 // except{ print("menssagem especifica da linha"); return false; }
 // mas não é uma boa ideia colocar isso antes de garantir que o codigo ta funcionando.
+import java.util.Scanner;
+
+import Model.Usuario.*;
+
 class AcessoPrincipal {
   CRUDUsuario crudUsuario;
   Scanner myInput;
-  String fileName;
 
-  public AcessoPrincipal(String arquivo) throws Exception {
-    fileName = arquivo;
-    crudUsuario = new CRUDUsuario(fileName);
+  public AcessoPrincipal() throws Exception {
+    crudUsuario = new CRUDUsuario();
     myInput = new Scanner( System.in );
   }
 
@@ -74,7 +75,7 @@ class AcessoPrincipal {
   
     if(tempUser.validarSenha(readSenha)) {
       System.out.println("\n");
-      return new AcessoUsuario(fileName, tempUser).run();
+      return new AcessoUsuario(tempUser).run();
     }
     else {
       System.out.println("\nSenha Incorreta.\n\n");

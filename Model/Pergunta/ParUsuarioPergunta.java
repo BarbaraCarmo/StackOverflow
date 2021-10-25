@@ -25,53 +25,60 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ParEmailID implements aed3.RegistroHashExtensivel<ParEmailID> {
+import aed3.RegistroArvoreBMais;
 
-  private String email;
-  private int id;
-  private short TAMANHO = 44;
-  private short EMAIL_TAMANHO = 40;
+public class ParUsuarioPergunta implements RegistroArvoreBMais<ParUsuarioPergunta> {
 
-  public ParEmailID() throws Exception {
-    this("", -1);
+  private int usuarioId;
+  private int perguntaId;
+  private short TAMANHO = (short) 2*Integer.BYTES;
+
+  public ParUsuarioPergunta() {
+    this(-1, -1);
   }
-  public ParEmailID(String e) throws Exception {
-    this(e, -1);
+  public ParUsuarioPergunta(int u) {
+    this(u, -1);
   }
-  public ParEmailID(String e, int i) throws Exception {
-    setEmail(e);
-    setID(i);
+  public ParUsuarioPergunta(int u, int p) {
+    this.usuarioId=u;
+    this.perguntaId=p;
   }
 
-  public int hashCode() { return this.email.hashCode(); }
+  public int hashCode() { return this.usuarioId; }
 
   public short size() { return this.TAMANHO; }
 
-  public String getEmail() { return this.email; }
-  public void setEmail(String value) throws Exception { 
-      if (value.length() > EMAIL_TAMANHO)
-        throw new Exception("Email muito grande. Tamanho: " + value.length() + " > Maximo: " + EMAIL_TAMANHO);
-      this.email = value; 
-    }
+  public int getUsuario() { return this.usuarioId; }
+  public void setUsuario(int value) { this.usuarioId = value; }
 
-  public int getID() { return this.id; }
-  public void setID(int value) { this.id = value; }
+  public int getPergunta() { return this.perguntaId; }
+  public void setPergunta(int value) { this.perguntaId = value; }
 
-  public String toString() { return this.email + ";" + this.id; }
+  public String toString() { return "(" + this.usuarioId + "," + this.perguntaId+ ")"; }
 
   public byte[] toByteArray() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     DataOutputStream dos = new DataOutputStream(baos);
-    dos.writeUTF(email);
-    dos.writeInt(id);
+    dos.writeInt(usuarioId);
+    dos.writeInt(perguntaId);
     return fix_size(baos.toByteArray());
   }
 
   public void fromByteArray(byte[] ba) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(ba);
     DataInputStream dis = new DataInputStream(bais);
-    this.email = dis.readUTF();
-    this.id = dis.readInt();
+    this.usuarioId = dis.readInt();
+    this.perguntaId = dis.readInt();
+  }
+
+  public int compareTo(ParUsuarioPergunta obj) {
+    int ans = this.usuarioId - obj.getUsuario();
+    if (ans == 0 && this.perguntaId != -1) ans = this.perguntaId - obj.getPergunta();
+    return ans;
+  }
+
+  public ParUsuarioPergunta clone() {
+    return new ParUsuarioPergunta(this.usuarioId, this.perguntaId);
   }
 
   private byte[] fix_size(byte[] short_data) throws IOException {
